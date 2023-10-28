@@ -4,3 +4,4 @@ venv
 logs
 .oci/config
 *.log
+.env
