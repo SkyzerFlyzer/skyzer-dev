@@ -1,0 +1,6 @@
+*.pem
+*.sqlite3
+venv
+logs
+.oci/config
+*.log
