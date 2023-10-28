@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Home | Skyzer Development
+{% endblock %}
+{% block description %}
+    The home page for Skyzer Development. This page contains links to our GitHub and GitLab pages, as well as a link to our Discord bot, Nitrado Server Guardian used for managing Nitrado services such as Ark Survival Evolved and Ark Survival Ascended.
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <img class="landing-image" src="{% static 'img/landing_image.svg' %}" alt="Landing Page Image">
+        <div class="text-container">
+            <h1>Welcome to Skyzer Development!</h1>
+            <p>Find some of our projects on the links below.</p>
+        </div>
+        <div class="row">
+            <a class="custom_button no-select" href="https://github.com/SkyzerFlyzer"><img class="button-img" src="{% static 'img/github.svg' %}" alt="GitHub Logo">GitHub</a>
+            <a class="custom_button no-select" href="https://gitlab.com/SkyzerFlyzer"><img class="button-img" src="{% static 'img/gitlab.svg' %}" alt="GitLab Logo">GitLab</a>
+        </div>
+        <div class="text-container">
+            <h2>Check out Nitrado Server Guardian!</h2>
+            <p>Server Guardian is a Discord bot that can help you manage your Nitrado services.</p>
+        </div>
+        <div class="row">
+            <a class="custom_button no-select" href="{% url 'nitrado_server_guardian' %}"><img class="button-img" src="{% static 'img/nitrado_server_guardian.svg' %}" alt="GitLab Logo">Nitrado Server Guardian</a>
+        </div>
+    </div>
+{% endblock %}

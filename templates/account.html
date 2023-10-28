@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Account | Skyzer Development
+{% endblock %}
+{% block description %}
+    Details and settings for your Skyzer Development account.
+{% endblock %}
+{% block content %}
+<div class="container">
+<h1>Account</h1>
+<div class="row">
+    <p>Logged in as:&nbsp;<strong>{{ user.email }}</strong></p>
+</div>
+    <div class="row">
+        <p> Welcome Back&nbsp;<strong>{{ full_name }}</strong>!</p>
+        <br>
+        <p> Linked discord account:&nbsp;<strong>{{ discord_username }}</strong></p>
+    </div>
+    <p>Your last login was at {{ last_login }}</p>
+    <a class="custom_button no-select" href="{% url 'nitrado_login' %}">
+        <img class="button-img" src="{% static "img/nitrado.svg" %}" alt="nitrado logo">
+        Add a Nitrado Account</a>
+<div class="row">
+    <div class="col half">
+    <h1> Update Your Linked Stripe Email</h1>
+        <p>This is the email that is used to check if you have an active subscription.</p>
+        <p>This is set to your account email by default</p>
+        <form method="post" action="/account/stripe/email/">
+            {% csrf_token %}
+            <div class="col">
+            <label class="col"> Email
+                <input type="text" name="email" placeholder="email@example.com">
+            </label>
+                <p></p>
+            <input class="custom_button no-select" type="submit" value="Update Linked Stripe Email">
+            </div>
+        </form>
+
+    </div>
+    <div class="col half">
+        <h1>Manage Your Stripe Account</h1>
+        <p>Manage your stripe account to update your payment details, view your invoices and cancel your subscription.</p>
+    <a href="{{ stripe_billing_portal }}" class="custom_button no-select">
+        <img class="button-img" src="{% static 'img/stripe.svg' %}" alt="stripe logo">
+        Manage your stripe account</a>
+    </div>
+</div>
+<h1> Subscribe to Premium</h1>
+<p>Subscribe to premium to get access to all the premium features the bot provides.</p>
+    <p><a href="{% url 'premium_features' %}" class="navbar-link">Click here for a Full list of premium features.</a></p>
+<a href="{{ stripe_subscribe_url }}" class="custom_button no-select">
+    <img class="button-img" src="{% static 'img/stripe.svg' %}" alt="stripe logo">
+    Subscribe to premium</a>
+</div>
+{% endblock %}

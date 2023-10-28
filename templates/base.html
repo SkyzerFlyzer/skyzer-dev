@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P3H3ZSWFW5"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-P3H3ZSWFW5');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="description" content="{% block description %}{% endblock %}">
+    <meta name="keywords" content="{% block keywords %}{% endblock %}">
+    <meta name="author" content="Skyzer Flyzer">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+    <meta name="theme-color" content="#314FB9">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" type="text/css">
+    <script async src="{% static 'js/main.js' %}"></script>
+    {% block head %}
+    {% endblock %}
+</head>
+<body class="dark_mode">
+<div class="navbar no-select">
+    <a href="{% url 'index' %}">
+        <img class="navbar-logo" src="{% static 'img/logo.svg' %}" alt="logo for Skyzer Development">
+    </a>
+    <div class="navbar-links">
+        <a href="{% url 'index' %}" class="navbar-link">Home</a>
+        <a href="{% url 'about' %}" class="navbar-link">About</a>
+        <a href="https://github.com/SkyzerFlyzer" class="navbar-link">GitHub</a>
+        <a href="https://gitlab.com/SkyzerFlyzer" class="navbar-link">GitLab</a>
+        <a href="{% url 'nitrado_server_guardian' %}" class="navbar-link">Server Guardian</a>
+    </div>
+    {% if user.is_authenticated %}
+        <form action="{% url 'oidc_logout' %}" method="post" class="desktop-only login-button navbar-link">
+        {% csrf_token %}
+            <input type="submit" value="logout" class="desktop-only login-button navbar-link" >
+        </form>
+    {% else %}
+    <a class="desktop-only login-button navbar-link" href="{% url 'oidc_authentication_init' %}">Account</a>
+    {% endif %}
+
+    <div class="mobile-menu">
+        {% if user.is_authenticated %}
+        <form action="{% url 'oidc_logout' %}" method="post" class="login-button navbar-link">
+        {% csrf_token %}
+            <input type="submit" value="logout" class="login-button navbar-link" >
+        </form>
+        {% else %}
+            <a class="login-button navbar-link" href="{% url 'oidc_authentication_init' %}">Account</a>
+        {% endif %}
+        <a href="#" class="hamburger icon" onclick="showHamburgerMenu()">
+            <img src="{% static 'img/bars-solid.svg' %}" alt="Hamburger menu img">
+          </a>
+    </div>
+
+</div>
+<div class="navbar col" id="mobileLinks">
+        <a href="{% url 'index' %}" class="navbar-link">Home</a>
+        <a href="{% url 'about' %}" class="navbar-link">About</a>
+        <a href="https://github.com/SkyzerFlyzer" class="navbar-link">GitHub</a>
+        <a href="https://gitlab.com/SkyzerFlyzer" class="navbar-link">GitLab</a>
+        <a href="{% url 'nitrado_server_guardian' %}" class="navbar-link">Server Guardian</a>
+
+      </div>
+
+{% block content %}
+{% endblock %}
+<div class="footer">
+    <footer>
+        <p>Skyzer Flyzer &copy; 2023</p>
+    </footer>
+</div>
+</body>
+</html>
