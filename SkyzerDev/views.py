@@ -213,4 +213,20 @@ def logout(request):
 
 def commands(request):
     command_data = load_commands()
-    return render(request, 'commands.html', context={"command_data":command_data})
+    return render(request, 'commands.html', context={"command_data": command_data})
+
+
+def premium_commands(request):
+    return render(request, 'coming_soon.html')
+
+
+def terms_of_service(request):
+    return render(request, 'terms.html')
+
+
+def privacy_policy(request):
+    return render(request, 'privacy.html')
+
+
+def cookies(request):
+    return render(request, 'cookies.html')

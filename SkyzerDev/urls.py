@@ -40,4 +40,8 @@ urlpatterns = [
     path("premium/", views.premium_features, name="premium_features"),
     path("logout/", views.logout, name="logout"),
     path("commands/", views.commands, name="commands"),
+    path("premium_commands/", views.premium_commands, name="premium_commands"),
+    path("terms_of_service", views.terms_of_service, name="terms_of_service"),
+    path("privacy_policy", views.privacy_policy, name="privacy_policy"),
+    path("cookies", views.cookies, name="cookies"),
 ]
