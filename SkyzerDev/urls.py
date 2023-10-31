@@ -39,4 +39,5 @@ urlpatterns = [
     path("nitrado/callback/", views.nitrado_callback, name="nitrado_callback"),
     path("premium/", views.premium_features, name="premium_features"),
     path("logout/", views.logout, name="logout"),
+    path("commands/", views.commands, name="commands"),
 ]

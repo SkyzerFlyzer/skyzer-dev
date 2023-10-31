@@ -1,4 +1,4 @@
-{% extends 'coming_soon.html' %}
+{% extends 'base.html' %}
 {% load static %}
 {% block title %}
     Server Guardian | Skyzer Development
@@ -8,4 +8,15 @@
     This bot is currently in development and only available for Nitrado services at this time.
     The bot has premium features for game servers running ARK: Survival Evolved and ARK: Survival Ascended.
     Premium features include but is not limited to: Server Logs, Server Status and the ability to add multiple accounts.
+{% endblock %}
+{% block content %}
+    <div class="container">
+    <img class="landing-image" src="{% static 'img/laptop.svg'%}" alt="Laptop">
+    <h1>Server Guardian</h1>
+    <h2>Coming Soon to a discord near you!</h2>
+    <p>Server Guardian is a discord bot designed to allow you to manage your game servers from the comfort of your own discord!</p>
+    <p>Currently only Nitrado Services are supported and focused around Ark Survival Ascended/Ark Survival Evolved.</p>
+    <p>Add the open beta to your server using the button below!</p>
+    <a href="https://discord.com/api/oauth2/authorize?client_id=1149742600551678162&scope=applications.commands" class="custom_button"><img class="button-img" src="{% static 'img/nitrado_server_guardian.svg' %}" alt="Nitrado Server Guardian"> Add the Beta Now!</a>
+    </div>
 {% endblock %}

@@ -15,6 +15,8 @@ from datetime import datetime
 from borneo import NoSQLHandle, NoSQLHandleConfig, Regions, PutRequest, GetRequest
 from borneo.iam import SignatureProvider
 
+from .modules.commands import load_commands
+
 
 def index(request):
     template = loader.get_template('index.html')
@@ -207,3 +209,8 @@ def logout(request):
     request.session.modified = True
     url = f"{settings.OIDC_OP_ISSUER}/oauth2/logout?client_id={settings.OIDC_RP_CLIENT_ID}"
     return redirect(url)
+
+
+def commands(request):
+    command_data = load_commands()
+    return render(request, 'commands.html', context={"command_data":command_data})
