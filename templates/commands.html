@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}
+    Commands | Skyzer Development
+{% endblock %}
+{% block description %}
+    This page lists all of the commands that are available to the server guardian discord bot. This also include options and arguments for each command to help you use them.
+{% endblock %}
+{% block head %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.css" rel="stylesheet" type="text/css"/>
+{% endblock %}
+{% block content %}
+    <div class="command-container">
+    {% for command in command_data %}
+        <details class="tree-nav__item is-expandable">
+            <summary class="tree-nav__item-title">{{ command.name }}</summary>
+            <div class="tree-nav__item">
+            <p>{{ command.description }}</p>
+            <p>Usage: {{ command.usage }}</p>
+            {% if command.options %}
+                <p>Options:</p>
+                <ul>
+                    {% for option in command.options %}
+                        <li>{{ option.name }}: {{ option.description }}</li>
+                    {% endfor %}
+            </ul>
+            {% endif %}
+            </div>
+        {% if command.sub_commands %}
+            <div class="tree-nav__item">
+        <p>Sub Commands:</p>
+         {% for sub_command in command.sub_commands %}
+            <details class="tree-nav__item is-expandable">
+                <summary class="tree-nav__item-title">{{ sub_command.name }}</summary>
+                <div class="tree-nav__item">
+                <p>{{ sub_command.description }}</p>
+                <p>Usage: {{ sub_command.usage }}</p>
+                {% if sub_command.options %}
+                    <p>Options:</p>
+                    <ul>
+                        {% for option in sub_command.options %}
+                            <li>{{ option.name }}: {{ option.description }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                </div>
+            </details>
+        {% endfor %}
+            </div>
+        </details>
+        {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

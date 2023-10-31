@@ -1,0 +1,21 @@
+{
+  "nitrado": {
+    "description": "Contains commands about the Nitrado API", "usage": "/nitrado {sub_command}", "sub_commands": {
+      "maintenance": {
+        "description": "Shows the maintenance status of the Nitrado API",
+        "usage": "/nitrado maintenance",
+        "options": {}
+      },
+      "ping": {
+        "description": "Pings the Nitrado API",
+        "usage": "/nitrado ping",
+        "options": {}
+      },
+      "version": {
+        "description": "Shows the current version of the Nitrado API",
+        "usage": "/nitrado version",
+        "options": {}
+      }
+    }
+  }
+}
