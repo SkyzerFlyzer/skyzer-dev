@@ -20,6 +20,8 @@ if ENV_FILE:
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ['APP_SECRET_KEY']
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 OIDC_RP_CLIENT_ID = os.environ['CLIENT_ID']
 OIDC_RP_CLIENT_SECRET = os.environ['CLIENT_SECRET']
@@ -39,12 +41,11 @@ LOGOUT_REDIRECT_URL = "http://127.0.0.1:8000/logout/"
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-6#ia7*3m8dex4s4nkm96%(p#!y(+=!(a@_k6u53ujb1ql-(wcc'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["www.skyzer.dev", "skyzer.dev"]
 
 
 # Application definition
