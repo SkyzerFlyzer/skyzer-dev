@@ -36,7 +36,6 @@ OIDC_OP_JWKS_ENDPOINT = OIDC_OP_ISSUER + "/.well-known/jwks.json"
 LOGIN_REDIRECT_URL = "http://127.0.0.1:8000/account/"
 LOGOUT_REDIRECT_URL = "http://127.0.0.1:8000/logout/"
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -46,7 +45,6 @@ LOGOUT_REDIRECT_URL = "http://127.0.0.1:8000/logout/"
 DEBUG = False
 
 ALLOWED_HOSTS = ["www.skyzer.dev", "skyzer.dev"]
-
 
 # Application definition
 
@@ -92,7 +90,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'SkyzerDev.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -102,7 +99,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -126,7 +122,6 @@ AUTHENTICATION_BACKENDS = (
     'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
 )
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -138,7 +133,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
@@ -146,7 +140,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-STATIC_ROOT="/var/www/skyzer.dev/static/"
+STATIC_ROOT = "/var/www/skyzer.dev/static/"
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
