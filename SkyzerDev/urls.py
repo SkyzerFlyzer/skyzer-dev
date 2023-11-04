@@ -14,10 +14,11 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from django.urls import path, include
-from SkyzerDev import views
+from SkyzerDev import views, settings
 from .sitemaps import StaticViewSitemap
 
 sitemaps = {
@@ -44,4 +45,4 @@ urlpatterns = [
     path("terms_of_service", views.terms_of_service, name="terms_of_service"),
     path("privacy_policy", views.privacy_policy, name="privacy_policy"),
     path("cookies", views.cookies, name="cookies"),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
