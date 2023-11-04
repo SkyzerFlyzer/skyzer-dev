@@ -10,7 +10,7 @@ from django.template import loader
 from fusionauth.fusionauth_client import FusionAuthClient
 
 from . import settings
-from .modules import Encryption
+from .modules import Encryption, Database
 from datetime import datetime
 from borneo import NoSQLHandle, NoSQLHandleConfig, Regions, PutRequest, GetRequest
 from borneo.iam import SignatureProvider
@@ -126,50 +126,45 @@ def nitrado_callback(request):
     user_data = user_data.get("data", {}).get("user", {})
     if user_data == {}:
         return render(request, 'error.html', context={"error": "Error: Nitrado API returned empty user data"})
-    provider = SignatureProvider()
-
-    config = NoSQLHandleConfig(Regions.UK_LONDON_1).set_authorization_provider(
-        provider).set_default_compartment(os.environ['ORACLE_COMPARTMENT_NAME'])
-
-    handle = NoSQLHandle(config)
-    table_name = os.environ["ORACLE_TABLE_NAME"]
-    get_request = GetRequest().set_table_name(table_name)
-    get_request.set_key({'discord_user_id': discord_id})
-    result = handle.get(get_request)
-    current_data = result.get_value()
-    if current_data is None:
-        current_data = {}
-    stripe_data = current_data.get("stripe", {})
+    # Create a couchbase connection
+    couch_database = Database(os.environ["COUCHBASE_USERNAME"], os.environ["COUCHBASE_PASSWORD"],
+                              os.environ["COUCHBASE_HOST"])
+    # Set the bucket
+    couch_database.set_bucket(os.environ["COUCHBASE_BUCKET"])
+    # Set the scope
+    couch_database.set_scope(os.environ["COUCHBASE_SCOPE"])
+    # Set the collection to stripe
+    couch_database.set_collection('stripe')
+    # Get the stripe data
+    stripe_data = couch_database.read_document(discord_id)
     if stripe_data is None:
         stripe_data = {}
-    nitrado_accounts = current_data.get("nitrado_accounts", {})
-    if nitrado_accounts is None:
-        nitrado_accounts = {}
-    registered_accounts = len(nitrado_accounts)
-    if stripe_data.get("max_nitrado", 1) <= registered_accounts:
-        if str(user_data['user_id']) not in set(nitrado_accounts.keys()):
-            return render(request, 'error.html',
-                          context={"error": "Error: You have reached the maximum number of Nitrado accounts "
-                                            "allowed"})
-
-    nitrado_data = current_data.get("nitrado_accounts", {})
-    if nitrado_data is None:
-        nitrado_data = {}
+    max_nitrado = stripe_data.get("max_nitrado", 1)
+    couch_database.set_collection('nitrado')
     encrypter = Encryption(os.environ["ENCRYPTION_KEY"])
     encrypted_access_token = encrypter.encrypt(token["access_token"])
     encrypted_refresh_token = encrypter.encrypt(token["refresh_token"])
-    nitrado_data[str(user_data["user_id"])] = {
+    document = {f"{user_data['user_id']}": {
         "access_token": encrypted_access_token,
         "refresh_token": encrypted_refresh_token,
         "expires_at": token["expires_in"] + int(time.time()),
-        "email": user_data["email"],
-    }
-    nitrado_accounts = nitrado_data
-    values = {"discord_user_id": discord_id, "nitrado_accounts": nitrado_accounts}
-    put_request = PutRequest().set_table_name(os.environ["ORACLE_TABLE_NAME"])
-    put_request.set_value(values)
-    handle.put(put_request)
-    return render(request, 'nitrado_success.html')
+        "email": user_data["email"]
+    }}
+    if max_nitrado == 1:
+        # upsert the nitrado data
+        couch_database.upsert_document(discord_id, document)
+        return render(request, 'nitrado_success.html')
+    # get current Nitrado data
+    current_nitrado_data = couch_database.read_document(discord_id)
+    if current_nitrado_data is None:
+        couch_database.upsert_document(discord_id, document)
+        return render(request, 'nitrado_success.html')
+    if len(current_nitrado_data) < max_nitrado or str(user_data['user_id']) in current_nitrado_data:
+        # upsert the nitrado data
+        couch_database.upsert_document(discord_id, document)
+        return render(request, 'nitrado_success.html')
+    return render(request, 'error.html',
+                  context={"error": "Error: You have reached the maximum number of Nitrado accounts allowed"})
 
 
 def update_stripe_email(request):
@@ -186,17 +181,16 @@ def update_stripe_email(request):
     subs = stripe.Subscription.query(f'email:"{email}"')
     if len(subs.get('data', [])) == 0:
         return render(request, 'error.html', context={"error": "Error: No subscription found for that email"})
-    provider = SignatureProvider()
-    config = NoSQLHandleConfig(Regions.UK_LONDON_1).set_authorization_provider(
-        provider).set_default_compartment(os.environ['ORACLE_COMPARTMENT_NAME'])
-
-    handle = NoSQLHandle(config)
-    table_name = os.environ["ORACLE_TABLE_NAME"]
-    values = {"discord_user_id": request.session['discord_id'], "stripe": {"email": email, "max_nitrado": 1,
-                                                                           "max_discord": 1}}
-    put_request = PutRequest().set_table_name(table_name)
-    put_request.set_value(values)
-    handle.put(put_request)
+    couch_database = Database(os.environ["COUCHBASE_USERNAME"], os.environ["COUCHBASE_PASSWORD"],
+                              os.environ["COUCHBASE_HOST"])
+    # Set the bucket
+    couch_database.set_bucket(os.environ["COUCHBASE_BUCKET"])
+    # Set the scope
+    couch_database.set_scope(os.environ["COUCHBASE_SCOPE"])
+    # Set the collection to stripe
+    couch_database.set_collection('stripe')
+    # Upsert the data
+    couch_database.upsert_document(request.session['discord_id'], {"email": email})
     return render(request, 'stripe_email_success.html')
 
 
