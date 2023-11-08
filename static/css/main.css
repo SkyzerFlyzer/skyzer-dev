@@ -340,3 +340,16 @@ details details {
 small {
     padding: 2px;
 }
+
+.col-lg-9{
+    min-width: 75%;
+    padding: 10px;
+}
+
+.content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
