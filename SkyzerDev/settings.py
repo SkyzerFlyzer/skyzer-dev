@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+import json
 import os
 from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
@@ -35,8 +36,8 @@ OIDC_OP_USER_ENDPOINT = OIDC_OP_ISSUER + "/oauth2/userinfo"
 OIDC_RP_SCOPES = "openid profile email"
 OIDC_RP_SIGN_ALGO = "HS256"
 OIDC_OP_JWKS_ENDPOINT = OIDC_OP_ISSUER + "/.well-known/jwks.json"
-LOGIN_REDIRECT_URL = "http://127.0.0.1:8000/account/"
-LOGOUT_REDIRECT_URL = "http://127.0.0.1:8000/logout/"
+LOGIN_REDIRECT_URL = os.environ['LOGIN_REDIRECT_URL']
+LOGOUT_REDIRECT_URL = os.environ['LOGOUT_REDIRECT_URL']
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -44,9 +45,9 @@ LOGOUT_REDIRECT_URL = "http://127.0.0.1:8000/logout/"
 # SECURITY WARNING: keep the secret key used in production secret!
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ['DEBUG']
 
-ALLOWED_HOSTS = ["www.skyzer.dev", "skyzer.dev", "127.0.0.1"]
+ALLOWED_HOSTS = json.loads(os.environ['ALLOWED_HOSTS'])
 
 # Application definition
 
@@ -163,4 +164,4 @@ LANGUAGES = (
 )
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
-CSRF_TRUSTED_ORIGINS = ['http://*.skyzer.dev', 'https://*.skyzer.dev', 'http://127.0.0.1:8000']
+CSRF_TRUSTED_ORIGINS = json.loads(os.environ['TRUSTED_ORIGINS'])
