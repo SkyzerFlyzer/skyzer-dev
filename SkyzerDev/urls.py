@@ -27,6 +27,8 @@ sitemaps = {
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("ckeditor/", include("ckeditor_uploader.urls")),
+    path('blog/', include('lotus.urls')),
     path('', views.index, name='index'),
     path('nitrado_server_guardian/', views.server_guardian, name='nitrado_server_guardian'),
     path('robots.txt', views.robots, name='robots'),
@@ -36,7 +38,7 @@ urlpatterns = [
     path("auth/", include('mozilla_django_oidc.urls')),
     path("account/", views.account, name="account"),
     path("account/stripe/email/", views.update_stripe_email, name="update_stripe_email"),
-    path("nitrado/login/" , views.nitrado_login, name="nitrado_login"),
+    path("nitrado/login/", views.nitrado_login, name="nitrado_login"),
     path("nitrado/callback/", views.nitrado_callback, name="nitrado_callback"),
     path("premium/", views.premium_features, name="premium_features"),
     path("logout/", views.logout, name="logout"),

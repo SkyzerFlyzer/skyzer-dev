@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
+from smart_media.settings import *
+from lotus.settings import *
 
 ENV_FILE = find_dotenv()
 if ENV_FILE:
@@ -42,13 +44,15 @@ LOGOUT_REDIRECT_URL = "http://127.0.0.1:8000/logout/"
 # SECURITY WARNING: keep the secret key used in production secret!
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["www.skyzer.dev", "skyzer.dev"]
+ALLOWED_HOSTS = ["www.skyzer.dev", "skyzer.dev", "127.0.0.1"]
 
 # Application definition
 
 INSTALLED_APPS = [
+    "dal",
+    "dal_select2",
     'django.contrib.admin',
     'django.contrib.auth',
     'mozilla_django_oidc',
@@ -56,7 +60,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sitemaps'
+    'django.contrib.sitemaps',
+    "sorl.thumbnail",
+    "smart_media",
+    "ckeditor",
+    "ckeditor_uploader",
+    "taggit",
+    "lotus",
 ]
 
 MIDDLEWARE = [
@@ -120,12 +130,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATION_BACKENDS = (
     'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-gb'
 
 TIME_ZONE = 'UTC'
 
@@ -145,3 +155,12 @@ STATIC_ROOT = "/var/www/skyzer.dev/static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LANGUAGE_CODE = "en"
+
+LANGUAGES = (
+    ("en", "English"),
+)
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CSRF_TRUSTED_ORIGINS = ['http://*.skyzer.dev', 'https://*.skyzer.dev', 'http://127.0.0.1:8000']

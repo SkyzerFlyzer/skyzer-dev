@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    {% block header-title %}
+    {% endblock header-title %}
+{% endblock %}
+{% block head %}
+    <link href="{% static 'css/blog.css' %}" rel="stylesheet">
+    {% block metas %}
+    {% endblock metas %}
+{% endblock %}
+
+{% block content %}
+{% endblock %}

@@ -312,3 +312,21 @@ details p {
 details details {
     margin-left: 70px;
 }
+
+#lotus-content {
+    display: block !important;
+}
+
+#lotus-content .article-detail {
+    display: block !important;
+}
+
+
+
+#lotus-content .container {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+}

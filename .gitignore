@@ -5,3 +5,5 @@ logs
 .oci/config
 *.log
 .env
+lotus
+cache
