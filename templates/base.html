@@ -29,6 +29,7 @@
         <a href="https://github.com/SkyzerFlyzer" class="navbar-link">GitHub</a>
         <a href="https://gitlab.com/SkyzerFlyzer" class="navbar-link">GitLab</a>
         <a href="{% url 'nitrado_server_guardian' %}" class="navbar-link">Server Guardian</a>
+        <a href="{% url 'lotus:article-index' %}" class="navbar-link">Blog</a>
     </div>
     {% if user.is_authenticated %}
         <form action="{% url 'oidc_logout' %}" method="post" class="desktop-only login-button navbar-link">
@@ -60,7 +61,7 @@
         <a href="https://github.com/SkyzerFlyzer" class="navbar-link">GitHub</a>
         <a href="https://gitlab.com/SkyzerFlyzer" class="navbar-link">GitLab</a>
         <a href="{% url 'nitrado_server_guardian' %}" class="navbar-link">Server Guardian</a>
-
+        <a href="{% url 'lotus:article-index' %}" class="navbar-link">Blog</a>
       </div>
 
 {% block content %}

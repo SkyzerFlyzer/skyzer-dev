@@ -28,7 +28,7 @@ sitemaps = {
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("ckeditor/", include("ckeditor_uploader.urls")),
-    path('blog/', include('lotus.urls')),
+    path('blog/', include('lotus.urls', namespace='lotus')),
     path('', views.index, name='index'),
     path('nitrado_server_guardian/', views.server_guardian, name='nitrado_server_guardian'),
     path('robots.txt', views.robots, name='robots'),

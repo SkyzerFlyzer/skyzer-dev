@@ -156,7 +156,7 @@ svg, img{
     width: 30px;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 840px) {
     .mobile-menu{
         display: flex;
         justify-content: right;
