@@ -331,3 +331,12 @@ details details {
     margin: 0;
     padding: 0;
 }
+
+.introduction {
+    align-items: center;
+    padding: 10px;
+}
+
+small {
+    padding: 2px;
+}
