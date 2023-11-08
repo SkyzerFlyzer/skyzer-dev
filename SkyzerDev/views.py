@@ -12,8 +12,6 @@ from fusionauth.fusionauth_client import FusionAuthClient
 from . import settings
 from .modules import Encryption, Database
 from datetime import datetime
-from borneo import NoSQLHandle, NoSQLHandleConfig, Regions, PutRequest, GetRequest
-from borneo.iam import SignatureProvider
 
 from .modules.commands import load_commands
 
@@ -59,7 +57,7 @@ def account(request):
     user_data = user.get("user", {})
     full_name = user_data.get("fullName", "")
     discord_id = user_data.get("data", {}).get("discord_id", "")
-    response = requests.get(f"https://dashboard.botghost.com/api/public/tools/user_lookup/{discord_id}")
+    response = requests.get(f"https://dashboard.botghost.com/api/public/tools/user_lookup/{discord_id}", timeout=30)
     discord_username = False
     if response.status_code == 200:
         discord_username = response.json().get("username", False)
@@ -112,13 +110,13 @@ def nitrado_callback(request):
             'client_id': os.environ.get('NITRADO_CLIENT_ID'),
             'client_secret': os.environ.get('NITRADO_CLIENT_SECRET')
             }
-    response = requests.post(url, headers=headers, data=data)
+    response = requests.post(url, headers=headers, data=data, timeout=30)
     print(response.content)
     token = response.json()
     discord_id = request.session['discord_id']
     # Add to oracle nosql table
     user_data = requests.get("https://api.nitrado.net/user",
-                             headers={"Authorization": f"Bearer {token['access_token']}"})
+                             headers={"Authorization": f"Bearer {token['access_token']}"}, timeout=30)
     try:
         user_data = user_data.json()
     except Exception as e:
