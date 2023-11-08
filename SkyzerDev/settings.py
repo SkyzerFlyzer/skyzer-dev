@@ -45,7 +45,8 @@ LOGOUT_REDIRECT_URL = os.environ['LOGOUT_REDIRECT_URL']
 # SECURITY WARNING: keep the secret key used in production secret!
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ['DEBUG']
+# convert to boolean
+DEBUG = os.environ['DEBUG'].lower() in ['true', '1', 't']
 
 ALLOWED_HOSTS = json.loads(os.environ['ALLOWED_HOSTS'])
 
