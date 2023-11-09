@@ -122,3 +122,11 @@ pre code {
 .article-detail > .container > .row {
     align-items: unset;
 }
+
+.author-detail {
+    flex-direction: column;
+}
+
+.category-detail {
+    flex-direction: column;
+}
