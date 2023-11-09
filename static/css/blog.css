@@ -57,7 +57,7 @@ a {
     display: flex;
     width: 100%;
     align-items: center;
-    justify-content: center;
+    padding-top: 20px;
 
 }
 
@@ -105,4 +105,20 @@ a {
 
 .text-decoration-none:hover {
     text-decoration: none;
+}
+
+p{
+    display: block;
+}
+
+pre code {
+  background-color: #353a3f;
+  border: 1px solid #fff;
+  display: block;
+  padding: 20px;
+    font-family: Monospace, serif;
+}
+
+.article-detail > .container > .row {
+    align-items: unset;
 }
