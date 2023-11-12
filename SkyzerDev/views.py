@@ -6,7 +6,6 @@ import stripe
 import requests
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from django.template import loader
 from fusionauth.fusionauth_client import FusionAuthClient
 
 from . import settings
@@ -17,13 +16,11 @@ from .modules.commands import load_commands
 
 
 def index(request):
-    template = loader.get_template('index.html')
-    return HttpResponse(template.render())
+    return render(request, 'index.html')
 
 
 def server_guardian(request):
-    template = loader.get_template('server_guardian.html')
-    return HttpResponse(template.render())
+    return render(request, 'server_guardian.html')
 
 
 def robots(request):
@@ -33,8 +30,7 @@ def robots(request):
 
 
 def about(request):
-    template = loader.get_template('about.html')
-    return HttpResponse(template.render())
+    return render(request, 'about.html')
 
 
 def account(request):
@@ -96,7 +92,6 @@ def nitrado_login(request):
 
 
 def nitrado_callback(request):
-    print(request.session)
     code = request.GET.get('code')
     state = request.GET.get('state')
     if state != request.session['state']:
@@ -111,7 +106,6 @@ def nitrado_callback(request):
             'client_secret': os.environ.get('NITRADO_CLIENT_SECRET')
             }
     response = requests.post(url, headers=headers, data=data, timeout=30)
-    print(response.content)
     token = response.json()
     discord_id = request.session['discord_id']
     # Add to oracle nosql table
