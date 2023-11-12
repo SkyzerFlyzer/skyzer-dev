@@ -138,3 +138,7 @@ pre code {
 .tag-detail {
     flex-direction: column;
 }
+
+#lotus-content > .article-list-container > .list > .row {
+    flex-direction: column;
+}
