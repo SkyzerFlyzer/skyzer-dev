@@ -1,4 +1,3 @@
-import base64
 import hashlib
 from Crypto import Random
 from Crypto.Cipher import AES
@@ -10,22 +9,25 @@ class Encryption:
         self.block_size = AES.block_size
         self.key = hashlib.sha256(key.encode()).digest()
 
-    def encrypt(self, text):
+    def encrypt(self, text: str) -> str:
         text = self._pad(text)
-        iv = Random.new().read(AES.block_size)
+        iv = Random.new().read(self.block_size)
         cipher = AES.new(self.key, AES.MODE_CBC, iv)
-        return base64.b64encode(iv + cipher.encrypt(text.encode())).decode('utf-8')
+        ciphertext = cipher.encrypt(text.encode())
+        encrypted_text = ciphertext.decode()
+        return iv.decode() + encrypted_text
 
-    def decrypt(self, text):
-        text = base64.b64decode(text)
-        iv = text[:AES.block_size]
+    def decrypt(self, text: str) -> str:
+        text = text.encode()
+        iv = text[:self.block_size]
         cipher = AES.new(self.key, AES.MODE_CBC, iv)
-        return Encryption._un_pad(cipher.decrypt(text[AES.block_size:])).decode('utf-8')
+        plaintext = cipher.decrypt(text[self.block_size:])
+        return self._un_pad(plaintext.decode())
 
-    def _pad(self, raw_string):
+    def _pad(self, raw_string: str) -> str:
         return (raw_string + (self.block_size - len(raw_string) % self.block_size) *
                 chr(self.block_size - len(raw_string) % self.block_size))
 
     @staticmethod
-    def _un_pad(s):
+    def _un_pad(s: str) -> str:
         return s[:-ord(s[len(s) - 1:])]
