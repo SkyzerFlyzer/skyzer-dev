@@ -1,3 +1,4 @@
+import base64
 import hashlib
 from Crypto import Random
 from Crypto.Cipher import AES
@@ -14,11 +15,12 @@ class Encryption:
         iv = Random.new().read(self.block_size)
         cipher = AES.new(self.key, AES.MODE_CBC, iv)
         ciphertext = cipher.encrypt(text.encode())
-        encrypted_text = ciphertext.decode()
-        return iv.decode() + encrypted_text
+        encrypted_text = base64.b64encode(ciphertext)
+        return base64.b64encode(iv + encrypted_text).decode()
 
     def decrypt(self, text: str) -> str:
         text = text.encode()
+        text = base64.b64decode(text)
         iv = text[:self.block_size]
         cipher = AES.new(self.key, AES.MODE_CBC, iv)
         plaintext = cipher.decrypt(text[self.block_size:])
