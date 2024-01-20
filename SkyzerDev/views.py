@@ -1,7 +1,9 @@
+import json
 import os
 import re
 import time
 import stripe
+import boto3
 
 import requests
 from django.http import HttpResponse
@@ -9,7 +11,7 @@ from django.shortcuts import redirect, render
 from fusionauth.fusionauth_client import FusionAuthClient
 
 from . import settings
-from .modules import Encryption, Database
+from .modules import Database
 from datetime import datetime
 
 from .modules.commands import load_commands
@@ -118,45 +120,26 @@ def nitrado_callback(request):
     user_data = user_data.get("data", {}).get("user", {})
     if user_data == {}:
         return render(request, 'error.html', context={"error": "Error: Nitrado API returned empty user data"})
-    # Create a couchbase connection
-    couch_database = Database(os.environ["COUCHBASE_USERNAME"], os.environ["COUCHBASE_PASSWORD"],
-                              os.environ["COUCHBASE_HOST"])
-    # Set the bucket
-    couch_database.set_bucket(os.environ["COUCHBASE_BUCKET"])
-    # Set the scope
-    couch_database.set_scope(os.environ["COUCHBASE_SCOPE"])
-    # Set the collection to stripe
-    couch_database.set_collection('stripe')
-    # Get the stripe data
-    stripe_data = couch_database.read_document(discord_id)
-    if stripe_data is None:
-        stripe_data = {}
-    max_nitrado = stripe_data.get("max_nitrado", 1)
-    couch_database.set_collection('nitrado')
-    encrypter = Encryption(os.environ["ENCRYPTION_KEY"])
-    encrypted_access_token = encrypter.encrypt(token["access_token"])
-    encrypted_refresh_token = encrypter.encrypt(token["refresh_token"])
-    document = {f"{user_data['user_id']}": {
-        "access_token": encrypted_access_token,
-        "refresh_token": encrypted_refresh_token,
+    document = {
+        "access_token": token["access_token"],
+        "refresh_token": token["refresh_token"],
         "expires_at": token["expires_in"] + int(time.time()),
-        "email": user_data["email"]
-    }}
-    if max_nitrado == 1:
-        # upsert the nitrado data
-        couch_database.upsert_document(discord_id, document)
-        return render(request, 'nitrado_success.html')
-    # get current Nitrado data
-    current_nitrado_data = couch_database.read_document(discord_id)
-    if current_nitrado_data is None:
-        couch_database.upsert_document(discord_id, document)
-        return render(request, 'nitrado_success.html')
-    if len(current_nitrado_data) < max_nitrado or str(user_data['user_id']) in current_nitrado_data:
-        # upsert the nitrado data
-        couch_database.upsert_document(discord_id, document)
-        return render(request, 'nitrado_success.html')
-    return render(request, 'error.html',
-                  context={"error": "Error: You have reached the maximum number of Nitrado accounts allowed"})
+        "email": user_data["email"],
+        "discord_id": discord_id
+    }
+    lambda_client = boto3.client(
+        'lambda',
+        aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
+        aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
+        region_name=os.getenv("AWS_REGION")
+    )
+    # TODO: Chane this to wait for the response to be returned to check for errors
+    _ = lambda_client.invoke(
+        FunctionName="upload_nitrado_tokens",
+        InvocationType='Event',
+        Payload=json.dumps(document)
+    )
+    return render(request, 'nitrado_success.html')
 
 
 def update_stripe_email(request):
