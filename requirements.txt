@@ -6,7 +6,7 @@ cffi==1.16.0
 charset-normalizer==3.3.0
 circuitbreaker==1.4.0
 couchbase==4.1.8
-cryptography==41.0.4
+cryptography==41.0.6
 cssselect2==0.7.0
 Deprecated==1.2.14
 Django==4.2.7
@@ -47,9 +47,9 @@ markdown2==2.4.10
 mozilla-django-oidc==3.0.0
 oci==2.114.0
 packaging==23.2
-Pillow==10.1.0
+Pillow==10.2.0
 pycparser==2.21
-pycryptodome==3.19.0
+pycryptodome==3.19.1
 pyOpenSSL==23.2.0
 python-dateutil==2.8.2
 python-dotenv==1.0.0
