@@ -6,7 +6,7 @@ cffi==1.16.0
 charset-normalizer==3.3.0
 circuitbreaker==1.4.0
 couchbase==4.1.8
-cryptography==41.0.6
+cryptography==42.0.0
 cssselect2==0.7.0
 Deprecated==1.2.14
 Django==4.2.7
