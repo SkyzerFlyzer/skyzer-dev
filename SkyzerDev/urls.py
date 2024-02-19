@@ -47,4 +47,5 @@ urlpatterns = [
     path("terms_of_service", views.terms_of_service, name="terms_of_service"),
     path("privacy_policy", views.privacy_policy, name="privacy_policy"),
     path("cookies", views.cookies, name="cookies"),
+    path("ctf/", include('scoreboard.urls'), name="scoreboard"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
