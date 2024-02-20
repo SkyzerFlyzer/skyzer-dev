@@ -1,0 +1,21 @@
+.custom_button{
+    display: inline-block;
+    background-color: #314fb9;
+    border-radius: 28px;
+    border: 1px solid #000;
+    cursor: pointer;
+    color: #fff;
+    padding: 16px 31px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #2f6627;
+}
+
+.custom_button:hover {
+    background-color: #2c2f33;
+}
+
+.button-img{
+    width: 25px;
+    margin-inline-end: 15px;
+    padding: 0;
+}

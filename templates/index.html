@@ -8,22 +8,34 @@
 {% endblock %}
 {% block content %}
     <div class="container">
-        <img class="landing-image" src="{% static 'img/landing_image.svg' %}" alt="Landing Page Image">
-        <div class="text-container">
-            <h1>Welcome to Skyzer Development!</h1>
-            <h1> The home of the Server Guardian Discord bot</h1>
-            <p>Find some of our projects on the links below.</p>
-        </div>
-        <div class="row">
-            <a class="custom_button no-select" href="https://github.com/SkyzerFlyzer"><img class="button-img" src="{% static 'img/github.svg' %}" alt="GitHub Logo">GitHub</a>
-            <a class="custom_button no-select" href="https://gitlab.com/SkyzerFlyzer"><img class="button-img" src="{% static 'img/gitlab.svg' %}" alt="GitLab Logo">GitLab</a>
-        </div>
-        <div class="text-container">
-            <h2>Check out Nitrado Server Guardian!</h2>
-            <p>Server Guardian is a Discord bot that can help you manage your Nitrado services.</p>
-        </div>
-        <div class="row">
-            <a class="custom_button no-select" href="{% url 'nitrado_server_guardian' %}"><img class="button-img" src="{% static 'img/nitrado_server_guardian.svg' %}" alt="GitLab Logo">Nitrado Server Guardian</a>
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <img class="img-fluid landing-image" src="{% static 'img/landing_image.svg' %}" alt="Image of the mascot waving">
+            </div>
+            <div class="col-lg-6">
+                <h1>Welcome to Skyzer Development!</h1>
+                <h2 class="h5"> The home of the Server Guardian Discord bot</h2>
+                <p>Find some of our projects on the links below.</p>
+                <div class="row">
+                <div class="col-md-4">
+                    <a class="btn btn-secondary custom_button no-select" href="https://github.com/SkyzerFlyzer">
+                        <img class="button-img" src="{% static 'img/github.svg' %}" alt="GitHub Logo">
+                        GitHub
+                    </a>
+                    <a class="btn btn-secondary custom_button no-select" href="https://gitlab.com/SkyzerFlyzer">
+                        <img class="button-img" src="{% static 'img/gitlab.svg' %}" alt="GitLab Logo">
+                        GitLab
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <a class="btn btn-secondary custom_button no-select" href={% url 'nitrado_server_guardian' %}>
+                        <img class="button-img" src="{% static 'img/nitrado_server_guardian.svg' %}" alt="Nitrado Server Guardian Logo">
+                        Nitrado Server Guardian
+                    </a>
+                </div>
+            </div>
+            </div>
+
         </div>
     </div>
 {% endblock %}
