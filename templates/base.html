@@ -2,6 +2,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {#  Title  #}
+    <title>{% block title %}{% endblock %}</title>
+    {#  Metadata  #}
     <meta charset="UTF-8">
     <meta name="description" content="{% block description %}{% endblock %}">
     <meta name="keywords" content="{% block keywords %}{% endblock %}">
@@ -9,68 +12,76 @@
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
     <meta name="theme-color" content="#314FB9">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/normalize.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'css/main.css' %}" type="text/css">
+    <meta name="google-adsense-account" content="ca-pub-3551556803223657">
     <link rel="shortcut icon" type="image/svg+xml" href="{% static 'img/logo.svg' %}"/>
     <link rel="canonical" href="https://skyzer.dev{{ request.path }}">
+    {#  StyleSheets  #}
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}" type="text/css">
+    {#  Javascript  #}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js" integrity="sha512-WW8/jxkELe2CAiE4LvQfwm1rajOS8PHasCCx+knHG0gBHt8EXxS6T6tJRTGuDQVnluuAvMxWF4j8SNFDKceLFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script async src="{% static 'js/main.js' %}"></script>
-    <meta name="google-adsense-account" content="ca-pub-3551556803223657">
+    {#  Custom Header  #}
     {% block head %}
     {% endblock %}
 </head>
-<body class="dark_mode">
-<div class="navbar no-select">
-    <a href="{% url 'index' %}">
-        <img class="navbar-logo" src="{% static 'img/logo.svg' %}" alt="logo for Skyzer Development">
-    </a>
-    <div class="navbar-links">
-        <a href="{% url 'index' %}" class="navbar-link">Home</a>
-        <a href="{% url 'about' %}" class="navbar-link">About</a>
-        <a href="https://github.com/SkyzerFlyzer" class="navbar-link">GitHub</a>
-        <a href="https://gitlab.com/SkyzerFlyzer" class="navbar-link">GitLab</a>
-        <a href="{% url 'nitrado_server_guardian' %}" class="navbar-link">Server Guardian</a>
-        <a href="{% url 'lotus:article-index' %}" class="navbar-link">Blog</a>
+<body class="bg-dark text-light vw-100 min-vw-100">
+<nav class="navbar navbar-expand-lg navbar-dark text-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'index' %}">
+            <img src="{% static 'img/logo.svg' %}" alt="Skyzer Development logo" height="30" class="d-inline-block align-text-top">
+            Skyzer Development
+        </a>
+        <!-- Navbar toggle button for mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="{% url 'about' %}" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://github.com/SkyzerFlyzer" class="nav-link">GitHub</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://gitlab.com/SkyzerFlyzer" class="nav-link">GitLab</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'nitrado_server_guardian' %}" class="nav-link">Server Guardian</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'lotus:article-index' %}" class="nav-link">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'scoreboard:login' %}" class="nav-link">CTF Platform</a>
+                </li>
+                <li class="nav-item">
+                    {% if user.is_authenticated %}
+                    <form action="{% url 'oidc_logout' %}" method="post">
+                    {% csrf_token %}
+                        <input type="submit" value="logout" class="nav-link" >
+                    </form>
+                    {% else %}
+                        <a href="{% url 'oidc_authentication_init' %}" class="nav-link">Account</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
     </div>
-    {% if user.is_authenticated %}
-        <form action="{% url 'oidc_logout' %}" method="post" class="desktop-only login-button navbar-link">
-        {% csrf_token %}
-            <input type="submit" value="logout" class="desktop-only login-button navbar-link" >
-        </form>
-    {% else %}
-    <a class="desktop-only login-button navbar-link" href="{% url 'oidc_authentication_init' %}">Account</a>
-    {% endif %}
-
-    <div class="mobile-menu">
-        {% if user.is_authenticated %}
-        <form action="{% url 'oidc_logout' %}" method="post" class="login-button navbar-link">
-        {% csrf_token %}
-            <input type="submit" value="logout" class="login-button navbar-link" >
-        </form>
-        {% else %}
-            <a class="login-button navbar-link" href="{% url 'oidc_authentication_init' %}">Account</a>
-        {% endif %}
-        <a href="#" class="hamburger icon" onclick="showHamburgerMenu()">
-            <img src="{% static 'img/bars-solid.svg' %}" alt="Hamburger menu img">
-          </a>
-    </div>
-
-</div>
-<div class="navbar col" id="mobileLinks">
-        <a href="{% url 'index' %}" class="navbar-link">Home</a>
-        <a href="{% url 'about' %}" class="navbar-link">About</a>
-        <a href="https://github.com/SkyzerFlyzer" class="navbar-link">GitHub</a>
-        <a href="https://gitlab.com/SkyzerFlyzer" class="navbar-link">GitLab</a>
-        <a href="{% url 'nitrado_server_guardian' %}" class="navbar-link">Server Guardian</a>
-        <a href="{% url 'lotus:article-index' %}" class="navbar-link">Blog</a>
-      </div>
+</nav>
 
 {% block content %}
 {% endblock %}
-<div class="footer">
-    <footer>
-        <p>Skyzer Flyzer &copy; 2023</p>
-    </footer>
-</div>
+<footer class="bg-dark text-center text-lg-start text-light">
+  <!-- Copyright -->
+  <div class="text-center p-3">
+    © 2024 Copyright:
+    <a class="text-light" href="https://skyzer.dev/">Skyzer Flyzer</a>
+  </div>
+  <!-- Copyright -->
+</footer>
 </body>
 </html>
