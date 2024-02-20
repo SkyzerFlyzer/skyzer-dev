@@ -7,13 +7,18 @@
     Information on Skyzer Development and the projects we are working on.
 {% endblock %}
 {% block content %}
-    <div class="container">
-        <div class="text-container">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 text-container">
             <h1>Skyzer Development</h1>
-            <img class="landing-image" src="{% static 'img/logo.svg' %}" alt="Skyzer Development Logo">
             <p>Skyzer Development is the place where I, Skyzer Flyzer, post my software development projects, making them available to the public.
-            The main project being worked on is the server guardian discord bot which is an upgrade from the original Ark Server Manager, which had to be discounted due to scalability problems.
+                The main project being worked on is the server guardian discord bot which is an upgrade from the original Ark Server Manager, which had to be discounted due to scalability problems.
             </p>
+            <p>I also have a blog on my site just for subjects, I think others might find interesting or to act as informational guides for things I create.</p>
+        </div>
+        <div class="col-lg-6">
+            <img class="img-fluid landing-image" src="{% static 'img/logo.svg' %}" alt="Skyzer Development Logo">
         </div>
     </div>
+</div>
 {% endblock %}
