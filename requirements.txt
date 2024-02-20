@@ -4,4 +4,7 @@ stripe~=7.1.0b1
 boto3~=1.34.22
 requests~=2.31.0
 python-dotenv~=1.0.0
+gunicorn~=21.2.0
+django-blog-lotus~=0.8.1
+fusionauth-client~=1.48.0
 git+https://github.com/SkyzerFlyzer/ctf-scoreboard.git~=0.1
