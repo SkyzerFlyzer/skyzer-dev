@@ -9,46 +9,56 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.css" rel="stylesheet" type="text/css"/>
 {% endblock %}
 {% block content %}
-    <div class="command-container">
+<div class="container">
     <h1>Nitrado Server Guardian Commands</h1>
-    {% for command in command_data %}
-        <details class="tree-nav__item is-expandable">
-            <summary class="tree-nav__item-title">{{ command.name }}</summary>
-            <div class="tree-nav__item">
-            <p>{{ command.description }}</p>
-            <p>Usage: {{ command.usage }}</p>
-            {% if command.options %}
-                <p>Options:</p>
-                <ul>
-                    {% for option in command.options %}
-                        <li>{{ option.name }}: {{ option.description }}</li>
-                    {% endfor %}
-            </ul>
-            {% endif %}
-            </div>
-        {% if command.sub_commands %}
-            <div class="tree-nav__item">
-        <p>Sub Commands:</p>
-         {% for sub_command in command.sub_commands %}
-            <details class="tree-nav__item is-expandable">
-                <summary class="tree-nav__item-title">{{ sub_command.name }}</summary>
-                <div class="tree-nav__item">
-                <p>{{ sub_command.description }}</p>
-                <p>Usage: {{ sub_command.usage }}</p>
-                {% if sub_command.options %}
-                    <p>Options:</p>
-                    <ul>
-                        {% for option in sub_command.options %}
-                            <li>{{ option.name }}: {{ option.description }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
+    <div class="command-container" data-bs-theme="dark">
+        {% for command in command_data %}
+            <details class="accordion">
+                <summary class="accordion-button bg-dark text-light" data-bs-toggle="collapse" data-bs-target="#command_{{ forloop.counter }}">
+                    {{ command.name }}
+                </summary>
+                <div id="command_{{ forloop.counter }}" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <p>{{ command.description }}</p>
+                        <p>Usage: {{ command.usage }}</p>
+                        {% if command.options %}
+                            <p>Options:</p>
+                            <ul>
+                                {% for option in command.options %}
+                                    <li>{{ option.name }}: {{ option.description }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {% if command.sub_commands %}
+                            <div class="command-container">
+                                <p>Sub Commands:</p>
+                                {% for sub_command in command.sub_commands %}
+                                    <details class="accordion">
+                                        <summary class="accordion-button bg-dark text-light" data-bs-toggle="collapse" data-bs-target="#sub_command_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">
+                                            {{ sub_command.name }}
+                                        </summary>
+                                        <div id="sub_command_{{ forloop.parentloop.counter }}_{{ forloop.counter }}" class="accordion-collapse collapse">
+                                            <div class="accordion-body">
+                                                <p>{{ sub_command.description }}</p>
+                                                <p>Usage: {{ sub_command.usage }}</p>
+                                                {% if sub_command.options %}
+                                                    <p>Options:</p>
+                                                    <ul>
+                                                        {% for option in sub_command.options %}
+                                                            <li>{{ option.name }}: {{ option.description }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </details>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
             </details>
         {% endfor %}
-            </div>
-        </details>
-        {% endif %}
-        {% endfor %}
     </div>
+</div>
 {% endblock %}

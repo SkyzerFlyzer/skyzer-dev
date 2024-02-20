@@ -10,18 +10,31 @@
     Premium features include but is not limited to: Server Logs, Server Status and the ability to add multiple accounts.
 {% endblock %}
 {% block content %}
-    <div class="container">
-    <img class="landing-image" src="{% static 'img/laptop.svg'%}" alt="Laptop">
-    <h1>Server Guardian</h1>
-    <h2>Coming Soon to a discord near you!</h2>
-    <p>Server Guardian is a discord bot designed to allow you to manage your game servers from the comfort of your own discord!</p>
-    <p>Currently only Nitrado Services are supported and focused around Ark Survival Ascended/Ark Survival Evolved.</p>
-    <p>Add the open beta to your server using the button below!</p>
-    <a href="https://discord.com/api/oauth2/authorize?client_id=1149742600551678162&scope=applications.commands" class="custom_button"><img class="button-img" src="{% static 'img/nitrado_server_guardian.svg' %}" alt="Nitrado Server Guardian"> Add the Beta Now!</a>
-    <h2>Commands</h2>
+<div class="container">
     <div class="row">
-        <a href="{% url 'commands' %}" class="custom_button">View Commands</a>
-        <a href="{% url 'premium_features' %}" class="custom_button">Premium Features</a>
+        <div class="col-lg-6">
+            <img class="img-fluid landing-image" src="{% static 'img/laptop.svg' %}" alt="Laptop">
+        </div>
+        <div class="col-lg-6">
+            <h1>Server Guardian</h1>
+            <h2>Coming Soon to a Discord near you!</h2>
+            <p>Server Guardian is a Discord bot designed to allow you to manage your game servers from the comfort of your own Discord!</p>
+            <p>Currently, only Nitrado Services are supported and focused around Ark Survival Ascended/Ark Survival Evolved.</p>
+            <p>Add the open beta to your server using the button below!</p>
+            <a href="https://discord.com/api/oauth2/authorize?client_id=1149742600551678162&scope=applications.commands" class="btn btn-primary custom_button">
+                <img class="button-img" src="{% static 'img/nitrado_server_guardian.svg' %}" alt="Nitrado Server Guardian">
+                Add the Beta Now!
+            </a>
+            <h2>Commands</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="{% url 'commands' %}" class="btn btn-secondary custom_button">View Commands</a>
+                </div>
+                <div class="col-md-6">
+                    <a href="{% url 'premium_features' %}" class="btn btn-secondary custom_button">Premium Features</a>
+                </div>
+            </div>
+        </div>
     </div>
-    </div>
+</div>
 {% endblock %}
